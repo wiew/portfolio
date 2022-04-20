@@ -4,7 +4,7 @@ function App() {
   return (
     <>
       <Header />
-      <section className="font-bold text-slate-300 bg-slate-900 h-screen text-7xl grid place-items-center">
+      <section className="grid h-screen font-bold text-slate-200 text-7xl place-items-center">
         app
       </section>
     </>
