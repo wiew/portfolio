@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { NavLink}  from 'react-router-dom'
 
 import Logo from './Logo'
 import SocialIcons from './SocialIcons'
@@ -7,18 +6,38 @@ import SocialIcons from './SocialIcons'
 import { ReactComponent as MenuIcon } from '../assets/hamburger-menu.svg'
 import { ReactComponent as MenuClose } from '../assets/close.svg'
 
-function Header() {
+function Header({ refProps }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
+
+  const scrollDown = (ref) => {
+    window.scrollTo({
+      top: ref.current.offsetTop,
+      behavior: 'smooth',
+    });
+  };
 
   return (
     <header className="fixed top-0 flex items-center justify-between w-full px-6 py-4 text-lg bg-gray-900/90 text-slate-100">
         <h1 className="flex-1">
           <Logo />
         </h1>
-        <nav className={`${ isNavOpen ? "translate-y-0 ease-bounceOut bottom-[2.5vw]" : "translate-y-full ease-bounceIn bottom-0" } fixed italic left-[2.5vw] flex flex-col items-center justify-center duration-700 w-[95vw] h-[50vh] gap-4 text-2xl bg-gray-900/90 backdrop-blur-sm transition-all rounded-xl`}>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/projects">Projects</NavLink>
-          <NavLink to="/contact">Contact</NavLink>
+        <nav className={`${ isNavOpen ? "translate-y-0 ease-bounceOut bottom-[2.5vw]" : "translate-y-full ease-bounceIn bottom-0 duration-500" } fixed italic left-[2.5vw] flex flex-col items-center justify-center duration-700 w-[95vw] h-[50vh] gap-4 text-2xl bg-gray-900/90 backdrop-blur-sm transition-all rounded-xl`}>
+          {
+            refProps.map(refs => {
+              return (
+                <button 
+                  key={refs.title}
+                  ref={refs.reference} 
+                  onClick={() => {
+                    setIsNavOpen(false);
+                    scrollDown(refs.reference);
+                  }}
+                >
+                  {refs.title}
+                </button>
+              )
+            })
+          }
           <SocialIcons />
           <button 
             onClick={() => {setIsNavOpen(false)}}
